@@ -11,10 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/index', 'FrontController@index')->name('front.index');
+Route::get('/feedback', 'FrontController@feedback')->name('front.feedback');
