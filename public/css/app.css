@@ -10895,7 +10895,24 @@ a.text-dark:focus {
 }
 
 .header {
+  background-color: #144CFF !important;
   height: 70px;
+  margin: 0 Auto;
+}
+
+.header > * {
+  background-color: inherit;
+  width: inherit;
+}
+
+.header > * > * > * {
+  background-color: inherit;
+  width: inherit;
+  padding-left: 10px;
+}
+
+body {
+  background-color: #6cb2eb;
 }
 
 .welcome-image {
@@ -10909,21 +10926,37 @@ a.text-dark:focus {
 
 .services {
   height: 400px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px Auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
-@media screen and (max-width: 400px) {
-  .index-welcome {
-    height: 150px;
-  }
+.service {
+  width: 25%;
+  height: 340px;
+  border: 1px grey solid;
+}
+
+.service-image {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+  height: 40%;
+}
+
+.service-content {
+  height: 60%;
+  padding: 0 5px;
+}
+
+.service-content > h4 {
+  margin: 10px 0;
 }
 
 @media screen and (min-width: 801px) {
   .custom-width {
     width: 800px;
-    margin-right: auto;
-    margin-left: auto;
   }
 }
 
@@ -10934,8 +10967,23 @@ a.text-dark:focus {
 }
 
 @media screen and (max-width: 400px) {
+  .index-welcome {
+    height: 150px;
+  }
+
   .custom-width {
     width: 100%;
+  }
+
+  .service {
+    margin: 20px auto;
+    width: 80%;
+  }
+
+  .services {
+    height: auto;
+    display: flex;
+    flex-direction: column;
   }
 }
 

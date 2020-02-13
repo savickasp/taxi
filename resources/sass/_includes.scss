@@ -3,12 +3,26 @@
     width: 100%;
     background-color: $bg-color;
 }
-.footer>span {
+
+.footer > span {
     font-size: 15px;
 }
 
 .header {
+    background-color: $bg-color !important;
     height: 70px;
+    margin: 0 Auto;
+}
+
+.header > * {
+    background-color: inherit;
+    width: inherit;
+}
+
+.header > * > * > * {
+    background-color: inherit;
+    width: inherit;
+    padding-left: 10px;
 }
 
 

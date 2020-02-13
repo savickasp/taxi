@@ -21,7 +21,7 @@
 </head>
 <body>
     @include('includes.header')
-    <main class="py-4">
+    <main>
         @yield('content')
     </main>
     @include('includes.footer')

@@ -2060,7 +2060,6 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
 
       axios.post('/api/comment?api_token=' + this.user.api_token, data).then(function (_ref3) {
         var data = _ref3.data;
-        console.log('asd');
 
         _this4.comments.push(data);
       });
