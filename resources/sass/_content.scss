@@ -1,0 +1,39 @@
+.welcome-image {
+    height: 300px;
+    width: 100%;
+    background-image: url("http://pstaxi.lt/storage/taxi-car-image.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.services {
+    height: 400px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 400px) {
+    .index-welcome {
+        height: 150px;
+    }
+}
+@media screen and (min-width: 801px) {
+    .custom-width {
+        width: 800px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+@media screen and (max-width: 800px) and (min-width: 401px) {
+    .custom-width {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .custom-width {
+        width: 100%;
+    }
+}

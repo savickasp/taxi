@@ -6,3 +6,9 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// Style for blade elements from view/includes: header and footer
+@import 'includes';
+
+//style for page content
+@import "content";

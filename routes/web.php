@@ -13,5 +13,6 @@
 
 Auth::routes();
 
+Route::get('/', 'FrontController@index')->name('front.index');
 Route::get('/index', 'FrontController@index')->name('front.index');
 Route::get('/feedback', 'FrontController@feedback')->name('front.feedback');
