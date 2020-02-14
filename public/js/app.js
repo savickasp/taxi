@@ -1908,6 +1908,41 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1945,6 +1980,9 @@ __webpack_require__.r(__webpack_exports__);
       type: [Object, Boolean]
     }
   },
+  created: function created() {
+    this.fetchComment(this.comment.id);
+  },
   computed: {
     editable: function editable() {
       if (!this.user) return false;
@@ -1952,6 +1990,45 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    fetchComment: function fetchComment(data) {
+      var _this = this;
+
+      axios.get('/api/comment?parrent=' + this.comment.id).then(function (_ref) {
+        var data = _ref.data;
+        _this.subcomments = data;
+      });
+    },
+    updateSubComment: function updateSubComment(data) {
+      var _this2 = this;
+
+      axios.put('/api/comment/' + data.id + '?api_token=' + this.user.api_token, data).then(function (_ref2) {
+        _objectDestructuringEmpty(_ref2);
+
+        _this2.comments[_this2.commentIndex(data)].body = data.body;
+      });
+    },
+    deleteSubComment: function deleteSubComment(data) {
+      var _this3 = this;
+
+      axios["delete"]('/api/comment/' + data.id + '?api_token=' + this.user.api_token, data).then(function () {
+        _this3.comments.splice(_this3.commentIndex(data), 1);
+      });
+    },
+    storeSubComment: function storeSubComment(data) {
+      var _this4 = this;
+
+      console.log(data);
+      axios.post('/api/comment?api_token=' + this.user.api_token, data).then(function (_ref3) {
+        var data = _ref3.data;
+
+        _this4.comments.push(data);
+      });
+    },
+    resetComment: function resetComment() {
+      this.data.body = this.comment.body;
+      this.edit_status = false;
+    },
+    //emiting to parrent
     saveComment: function saveComment() {
       this.edit_status = false;
       this.$emit('comment-update', {
@@ -1959,22 +2036,23 @@ __webpack_require__.r(__webpack_exports__);
         'body': this.data.body
       });
     },
-    resetComment: function resetComment() {
-      this.data.body = this.comment.body;
-      this.edit_status = false;
-    },
     deleteComment: function deleteComment() {
       this.$emit('comment-delete', {
         'id': this.comment.id
       });
+    },
+    storeComment: function storeComment(data) {
+      this.$emit('comment-create', data);
     }
   },
   data: function data() {
     return {
       edit_status: false,
+      reply_status: false,
       data: {
         body: this.comment.body
-      }
+      },
+      subcomments: []
     };
   }
 });
@@ -1993,6 +2071,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Comment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Comment */ "./resources/js/components/Comment.vue");
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
+//
 //
 //
 //
@@ -2034,9 +2113,14 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
     fetchComment: function fetchComment() {
       var _this = this;
 
+      data: {
+        parrent: null;
+      }
+
       axios.get('/api/comment').then(function (_ref) {
         var data = _ref.data;
         _this.comments = data;
+        console.log(data);
       });
     },
     updateComment: function updateComment(data) {
@@ -2058,6 +2142,7 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
     storeComment: function storeComment(data) {
       var _this4 = this;
 
+      console.log(data);
       axios.post('/api/comment?api_token=' + this.user.api_token, data).then(function (_ref3) {
         var data = _ref3.data;
 
@@ -2128,19 +2213,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'new-comment',
   props: {
     user: {
       type: [Object, Boolean]
+    },
+    parrent_id: {
+      type: Number
     }
   },
   methods: {
     saveComment: function saveComment() {
       var commentNew = {
         user_id: this.user.id,
-        parrent_id: null,
+        parrent_id: this.parrent_id,
         body: this.body
       };
       this.$emit('comment-create', commentNew);
@@ -2148,6 +2235,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     clearComment: function clearComment() {
       this.body = '';
+      this.$emit('clear-comment');
     }
   },
   data: function data() {
@@ -37530,118 +37618,196 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "width-100proc p-2" }, [
-    _c(
-      "div",
-      { staticClass: "d-flex flex-row justify-content-between width-100proc" },
-      [
-        _c("p", [_vm._v(_vm._s(_vm.comment.name) + " ")]),
-        _vm._v(" "),
-        _c("p", [_vm._v(" " + _vm._s(_vm.comment.created_at))])
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
+  return _c("div", [
+    _c("div", [
+      _c("div", { staticClass: "w-100 pb-2 comment" }, [
+        _c(
+          "div",
           {
-            name: "show",
-            rawName: "v-show",
-            value: !_vm.edit_status,
-            expression: "!edit_status"
-          }
-        ],
-        staticClass: "comment-container width-100proc"
-      },
-      [
-        _c("p", [_vm._v(_vm._s(this.data.body))]),
+            staticClass:
+              "comment-owner d-flex flex-row justify-content-between width-100proc"
+          },
+          [
+            _c("span", { staticClass: "pl-2" }, [
+              _vm._v(_vm._s(_vm.comment.name) + " ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "mr-2" }, [
+              _vm.editable
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "ml-2 btn-link mt-1 mb-1",
+                      on: {
+                        click: function($event) {
+                          _vm.edit_status = true
+                        }
+                      }
+                    },
+                    [_vm._v("edit\n                    ")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("span", [_vm._v(" " + _vm._s(_vm.comment.created_at))])
+            ])
+          ]
+        ),
         _vm._v(" "),
-        _vm.editable
-          ? _c(
-              "button",
-              {
-                staticClass: "btn btn-secondary",
-                on: {
-                  click: function($event) {
-                    _vm.edit_status = true
-                  }
-                }
-              },
-              [_vm._v("edit")]
-            )
-          : _vm._e()
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
+        _c(
+          "div",
           {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.edit_status,
-            expression: "edit_status"
-          }
-        ]
-      },
-      [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("div", { staticClass: "d-flex flex-column" }, [
-          _c("textarea", {
             directives: [
               {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.data.body,
-                expression: "data.body"
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.edit_status,
+                expression: "!edit_status"
               }
             ],
-            staticClass: "form-control",
-            domProps: { value: _vm.data.body },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+            staticClass: "comment-container width-100proc"
+          },
+          [
+            _c("span", { staticClass: "pl-2" }, [
+              _vm._v(_vm._s(this.data.body))
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _vm.user.id
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "ml-2 btn-link",
+                      on: {
+                        click: function($event) {
+                          _vm.reply_status = !_vm.reply_status
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        reply\n                    "
+                      )
+                    ]
+                  )
+                : _vm._e()
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.edit_status,
+                expression: "edit_status"
+              }
+            ]
+          },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "d-flex flex-column" }, [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.data.body,
+                    expression: "data.body"
+                  }
+                ],
+                staticClass: "form-control",
+                domProps: { value: _vm.data.body },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.data, "body", $event.target.value)
+                  }
                 }
-                _vm.$set(_vm.data, "body", $event.target.value)
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex justify-content-between" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success m-1",
+                    on: { click: _vm.saveComment }
+                  },
+                  [_vm._v("Update")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary m-1",
+                    on: { click: _vm.resetComment }
+                  },
+                  [_vm._v("Cancel")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger m-1",
+                    on: { click: _vm.deleteComment }
+                  },
+                  [_vm._v("Delete")]
+                )
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _vm.reply_status
+          ? _c(
+              "div",
+              { staticClass: "w-75 m-auto" },
+              [
+                _c("new-comment", {
+                  attrs: { user: _vm.user, parrent_id: _vm.comment.id },
+                  on: {
+                    "comment-create": function($event) {
+                      return _vm.storeComment($event)
+                    },
+                    "clear-comment": function($event) {
+                      _vm.reply_status = false
+                    }
+                  }
+                })
+              ],
+              1
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "subComment" },
+        _vm._l(_vm.subcomments, function(subcomment) {
+          return _c("comment", {
+            key: subcomment.id,
+            attrs: { user: _vm.user, comment: subcomment },
+            on: {
+              "comment-update": function($event) {
+                return _vm.updateSubComment($event)
+              },
+              "comment-delete": function($event) {
+                return _vm.deleteSubComment($event)
+              },
+              "comment-create": function($event) {
+                return _vm.storeSubComment($event)
               }
             }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "d-flex justify-content-between" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-success m-1",
-                on: { click: _vm.saveComment }
-              },
-              [_vm._v("Update")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary m-1",
-                on: { click: _vm.resetComment }
-              },
-              [_vm._v("Cancel")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-danger m-1",
-                on: { click: _vm.deleteComment }
-              },
-              [_vm._v("Delete")]
-            )
-          ])
-        ])
-      ]
-    )
+          })
+        }),
+        1
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -37677,17 +37843,6 @@ var render = function() {
     "div",
     { staticClass: "comment-container" },
     [
-      _vm.user.id
-        ? _c("new-comment", {
-            attrs: { user: _vm.user },
-            on: {
-              "comment-create": function($event) {
-                return _vm.storeComment($event)
-              }
-            }
-          })
-        : _vm._e(),
-      _vm._v(" "),
       _c(
         "div",
         { staticClass: "w-100" },
@@ -37701,12 +37856,26 @@ var render = function() {
               },
               "comment-delete": function($event) {
                 return _vm.deleteComment($event)
+              },
+              "comment-create": function($event) {
+                return _vm.storeComment($event)
               }
             }
           })
         }),
         1
-      )
+      ),
+      _vm._v(" "),
+      _vm.user.id
+        ? _c("new-comment", {
+            attrs: { user: _vm.user },
+            on: {
+              "comment-create": function($event) {
+                return _vm.storeComment($event)
+              }
+            }
+          })
+        : _vm._e()
     ],
     1
   )
@@ -37780,9 +37949,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "w-100 d-flex flex-column" }, [
-    _vm._m(0),
-    _vm._v(" "),
+  return _c("div", { staticClass: "w-100 d-flex flex-column mb-2" }, [
     _c("div", { staticClass: "d-flex flex-row" }, [
       _c("textarea", {
         directives: [
@@ -37828,14 +37995,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("span", [_vm._v("Comment")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

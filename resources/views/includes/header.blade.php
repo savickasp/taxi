@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm header custom-width">
+<nav class="navbar navbar-expand-md navbar-light shadow-sm header custom-width">
     <div class="container">
         <!-- Left Side Of Navbar -->
         <ul class="navbar-nav mr-auto d-flex flex-row">

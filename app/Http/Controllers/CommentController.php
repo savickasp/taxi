@@ -10,15 +10,16 @@ use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
 
 class CommentController extends Controller
 {
-    public function index(Comment $comment)
+    public function index(Comment $comment, Request $request)
     {
-
-        $comment = $comment
+        $comments = $comment
             ->join('users', 'users.id', '=', 'comments.user_id')
+            ->where('parrent_id', $request['parrent'])
             ->select('comments.*', 'users.name')
+            ->orderBy('comments.id', 'asc')
             ->get();
 
-        return response($comment, 200);
+        return response($comments, 200);
     }
 
     public function store(Request $request, Comment $comment)

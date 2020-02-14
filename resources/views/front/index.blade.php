@@ -14,5 +14,7 @@
             </div>
         @endforeach
     </section>
-    <iframe width="100%" height="300" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJt7E589yW3UYRd-YVVUOqtI4&key=AIzaSyDChpwvOfo3HUIglbzAmHM46-ooCgi_oGI" allowfullscreen></iframe>
+    <iframe width="100%" height="300" frameborder="0" style="border:0"
+            src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJt7E589yW3UYRd-YVVUOqtI4&key=AIzaSyDChpwvOfo3HUIglbzAmHM46-ooCgi_oGI"
+            allowfullscreen></iframe>
 @endsection
