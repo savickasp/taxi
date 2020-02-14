@@ -10915,6 +10915,10 @@ body {
   align-items: center;
 }
 
+.current_page {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
 .comment {
   border: 2px black solid;
   margin-bottom: 4px;

@@ -2,10 +2,11 @@
     <div class="container">
         <!-- Left Side Of Navbar -->
         <ul class="navbar-nav mr-auto d-flex flex-row">
-            <li class="nav-item">
+            <li class="nav-item {{(\Illuminate\Support\Facades\Route::currentRouteName() == 'front.index')
+                || (\Illuminate\Support\Facades\Route::currentRouteName() == 'front.home') ? 'current_page' : ''}}">
                 <a class="nav-link" href="{{ route('front.index') }}">Index</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{(\Illuminate\Support\Facades\Route::currentRouteName() == 'front.feedback') ? 'current_page' : ''}}">
                 <a class="nav-link" href="{{ route('front.feedback') }}">feedback</a>
             </li>
         </ul>

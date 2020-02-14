@@ -14,6 +14,9 @@ use Illuminate\Http\Request;
 */
 
 Route::get('comment', 'CommentController@index');
-Route::middleware('auth:api')->post('/comment', 'CommentController@store');
-Route::middleware('auth:api')->put('/comment/{comment}', 'CommentController@update');
-Route::middleware('auth:api')->delete('/comment/{comment}', 'CommentController@destroy');
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('/comment', 'CommentController@store');
+    Route::put('/comment/{comment}', 'CommentController@update');
+    Route::delete('/comment/{comment}', 'CommentController@destroy');
+});
