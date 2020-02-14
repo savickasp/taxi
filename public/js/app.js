@@ -1969,6 +1969,8 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'comment',
   props: {
@@ -2004,14 +2006,14 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       axios.put('/api/comment/' + data.id + '?api_token=' + this.user.api_token, data).then(function (_ref2) {
         _objectDestructuringEmpty(_ref2);
 
-        _this2.comments[_this2.commentIndex(data)].body = data.body;
+        _this2.subcomments[_this2.commentIndex(data)].body = data.body;
       });
     },
     deleteSubComment: function deleteSubComment(data) {
       var _this3 = this;
 
       axios["delete"]('/api/comment/' + data.id + '?api_token=' + this.user.api_token, data).then(function () {
-        _this3.comments.splice(_this3.commentIndex(data), 1);
+        _this3.subcomments.splice(_this3.commentIndex(data), 1);
       });
     },
     storeSubComment: function storeSubComment(data) {
@@ -2021,7 +2023,7 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       axios.post('/api/comment?api_token=' + this.user.api_token, data).then(function (_ref3) {
         var data = _ref3.data;
 
-        _this4.comments.push(data);
+        _this4.subcomments.push(data);
       });
     },
     resetComment: function resetComment() {
@@ -2040,9 +2042,6 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       this.$emit('comment-delete', {
         'id': this.comment.id
       });
-    },
-    storeComment: function storeComment(data) {
-      this.$emit('comment-create', data);
     }
   },
   data: function data() {
@@ -2142,7 +2141,6 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
     storeComment: function storeComment(data) {
       var _this4 = this;
 
-      console.log(data);
       axios.post('/api/comment?api_token=' + this.user.api_token, data).then(function (_ref3) {
         var data = _ref3.data;
 
@@ -37667,8 +37665,8 @@ var render = function() {
             staticClass: "comment-container width-100proc"
           },
           [
-            _c("span", { staticClass: "pl-2" }, [
-              _vm._v(_vm._s(this.data.body))
+            _c("div", { staticClass: "pl-2" }, [
+              _c("span", [_vm._v(_vm._s(this.data.body))])
             ]),
             _vm._v(" "),
             _c("div", [
@@ -37772,7 +37770,7 @@ var render = function() {
                   attrs: { user: _vm.user, parrent_id: _vm.comment.id },
                   on: {
                     "comment-create": function($event) {
-                      return _vm.storeComment($event)
+                      return _vm.storeSubComment($event)
                     },
                     "clear-comment": function($event) {
                       _vm.reply_status = false

@@ -11,7 +11,9 @@
                     </div>
                 </div>
                 <div class="comment-container width-100proc" v-show="!edit_status">
-                    <span class="pl-2">{{this.data.body}}</span>
+                    <div class="pl-2">
+                        <span>{{this.data.body}}</span>
+                    </div>
                     <div>
                         <button v-if="user.id"
                                 @click="reply_status = !reply_status"
@@ -34,7 +36,7 @@
                     </div>
                 </div>
                 <div class="w-75 m-auto" v-if="reply_status">
-                    <new-comment @comment-create="storeComment($event)"
+                    <new-comment @comment-create="storeSubComment($event)"
                                  @clear-comment="reply_status = false"
                                  :user="user"
                                  :parrent_id="comment.id"
@@ -88,20 +90,20 @@
             updateSubComment: function (data) {
                 axios.put('/api/comment/' + data.id + '?api_token=' + this.user.api_token, data)
                     .then(({}) => {
-                        this.comments[this.commentIndex(data)].body = data.body;
+                        this.subcomments[this.commentIndex(data)].body = data.body;
                     })
             },
             deleteSubComment: function (data) {
                 axios.delete('/api/comment/' + data.id + '?api_token=' + this.user.api_token, data)
                     .then(() => {
-                        this.comments.splice(this.commentIndex(data), 1);
+                        this.subcomments.splice(this.commentIndex(data), 1);
                     })
             },
             storeSubComment: function (data) {
                 console.log(data);
                 axios.post('/api/comment?api_token=' + this.user.api_token, data)
                     .then(({data}) => {
-                        this.comments.push(data);
+                        this.subcomments.push(data);
                     });
             },
 
@@ -121,9 +123,6 @@
                 this.$emit('comment-delete', {
                     'id': this.comment.id
                 });
-            },
-            storeComment: function (data) {
-                this.$emit('comment-create', data)
             },
 
         },

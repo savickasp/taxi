@@ -62,7 +62,6 @@
                     })
             },
             storeComment: function (data) {
-                console.log(data);
                 axios.post('/api/comment?api_token=' + this.user.api_token, data)
                     .then(({data}) => {
                         this.comments.push(data);
